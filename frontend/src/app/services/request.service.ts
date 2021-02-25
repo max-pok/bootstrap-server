@@ -8,11 +8,11 @@ import { Request } from '../models/request';
 })
 export class RequestService {
   private requestUrl: string;
-  private responseToRequestUrl: string;
+  private responseUrl: string;
 
   constructor(private http: HttpClient) {
     this.requestUrl = 'http://localhost:9092/request';
-    this.responseToRequestUrl = 'http://localhost:9092/response';
+    this.responseUrl = 'http://localhost:9092/response';
   }
 
   public findAll(): Observable<Request[]> {
@@ -28,10 +28,9 @@ export class RequestService {
   }
 
   public getResponse(request: Request) {
-    return this.http.get<String>(this.responseToRequestUrl, {
+    return this.http.get<String>(this.responseUrl, {
       params: {
         customer_id: request.customer_id,
-        location: request.location,
         license_key: request.license_key,
       },
     });

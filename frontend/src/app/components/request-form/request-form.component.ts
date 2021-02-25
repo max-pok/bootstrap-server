@@ -25,7 +25,10 @@ export class RequestFormComponent implements OnInit {
 
     if (this.validateForm.valid) {
       this.requestService.save(this.request).subscribe(() => {
-        this.gotoInfoPage();
+        this.requestService.getResponse(this.request).subscribe((response) => {
+          if (response !== '') alert(response);
+          this.router.navigate(['']);
+        });
       });
     } else {
       for (const i in this.validateForm.controls) {
