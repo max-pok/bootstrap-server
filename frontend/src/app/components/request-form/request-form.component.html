@@ -1,0 +1,40 @@
+
+
+<div class='container mt4'>
+  <h4 class='display-4 text-center mb4'>
+        <br />
+        Request
+      </h4> 
+  
+    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your user ID!">
+          <nz-input-group>
+            <input type="text" nz-input formControlName="userID" placeholder="Username" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input a location!">
+             <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a location" formControlName="location">
+                 <div>
+                     <nz-option nzLabel="{{l}}" nzValue="{{l}}" *ngFor="let l of locations"></nz-option>
+                 </div>
+            </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input a license!">
+             <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a license" formControlName="license" >
+                 <div>
+                     <nz-option nzLabel="{{l}}" nzValue="{{l}}" *ngFor="let l of licences"></nz-option>
+                 </div>
+            </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      
+      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Submit Request</button>
+      <br>
+      <button nz-button class="go-back-button" nzType="primary" nzShape="round" routerLink="/home">Go to Info Page</button>
+    </form>
+</div>

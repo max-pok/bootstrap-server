@@ -1,0 +1,22 @@
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 50px;
+}
+
+nz-select {
+  width: 100%;
+}
+
+.login-form-margin {
+  margin-bottom: 16px;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.go-back-button {
+  width: 50%;
+  margin: 100px auto auto 25%;
+}
