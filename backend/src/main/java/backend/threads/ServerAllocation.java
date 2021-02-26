@@ -8,8 +8,6 @@ import com.mongodb.client.model.Updates;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Logger;
 
 public class ServerAllocation implements Runnable {
@@ -17,7 +15,6 @@ public class ServerAllocation implements Runnable {
     private final static Logger LOGGER = Logger.getLogger(ServerAllocation.class.getName());
 
     public ServerAllocation() {
-
     }
 
     @Override
@@ -42,7 +39,8 @@ public class ServerAllocation implements Runnable {
      *          and start the timer for his license key.
      */
     public synchronized void allocateServerToClient() {
-        List<Client> clientList = MongoDB.clientsCollection.find(Filters.eq("server_id", "")).into(new ArrayList<>());;
+        List<Client> clientList = MongoDB.clientsCollection.find(
+                Filters.and(Filters.eq("server_id", ""), Filters.ne("license_expiration_time", 0))).into(new ArrayList<>());;
 
         for (Client client: clientList) {
             List<Server> serverList = MongoDB.serversCollection.find(Filters.eq("location", client.getLocation())).into(new ArrayList<>());

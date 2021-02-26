@@ -1,6 +1,7 @@
 package backend;
 
 import backend.repositories.ServerRepository;
+import backend.threads.LicenseExpiration;
 import backend.threads.ServerAllocation;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +11,14 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
-		new Thread(new ServerAllocation()).start();
+		initProcesses();
+	}
+
+	public static void initProcesses() {
+		ServerAllocation serverAllocation = new ServerAllocation();
+		new Thread(serverAllocation).start();
+		LicenseExpiration licenseExpiration = new LicenseExpiration();
+		new Thread(licenseExpiration).start();
 	}
 
 }
