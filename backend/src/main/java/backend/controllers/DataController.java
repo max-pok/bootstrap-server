@@ -1,4 +1,4 @@
-package backend.controller;
+package backend.controllers;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,4 +15,7 @@ public class DataController {
     public void licensesVerificationWithServer() {
 
     }
+
+
+
 }

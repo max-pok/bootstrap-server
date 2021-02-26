@@ -1,4 +1,4 @@
-package backend.controller;
+package backend.controllers;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
@@ -7,7 +7,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

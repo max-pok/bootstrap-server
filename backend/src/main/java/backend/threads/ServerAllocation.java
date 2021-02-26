@@ -1,6 +1,6 @@
-package backend;
+package backend.threads;
 
-import backend.controller.DataController;
+import backend.controllers.DataController;
 
 public class ServerAllocation implements Runnable {
 

@@ -1,9 +1,10 @@
-package backend.module;
+package backend.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Request {
@@ -53,5 +54,18 @@ public class Request {
                 ", location='" + location + '\'' +
                 ", license_key='" + license_key + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request request = (Request) o;
+        return customer_id.equals(request.customer_id) && location.equals(request.location) && license_key.equals(request.license_key);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customer_id, location, license_key);
     }
 }

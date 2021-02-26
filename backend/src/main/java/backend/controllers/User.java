@@ -1,4 +1,4 @@
-package backend.controller;
+package backend.controllers;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

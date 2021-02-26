@@ -1,9 +1,10 @@
-package backend.module;
+package backend.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Server {
@@ -54,5 +55,28 @@ public class Server {
 
     public void setServer_id(String server_id) {
         this.server_id = server_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Server{" +
+                "server_id='" + server_id + '\'' +
+                ", server_ip_address='" + server_ip_address + '\'' +
+                ", clients_capacity=" + clients_capacity +
+                ", location='" + location + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Server server = (Server) o;
+        return clients_capacity == server.clients_capacity && server_id.equals(server.server_id) && server_ip_address.equals(server.server_ip_address) && location.equals(server.location);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(server_id, server_ip_address, clients_capacity, location);
     }
 }
