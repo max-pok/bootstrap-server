@@ -4,7 +4,7 @@
         <br />
         Active Connections
       </h4> 
-      <nz-table #basicTable [nzData]="listOfData">
+      <nz-table #activeTable [nzData]="activeConnections">
       <thead>
         <tr>
           <th>Client ID</th>
@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of basicTable.data">
+        <tr *ngFor="let data of activeTable.data">
           <td>{{ data.client_id }}</td>
           <td>{{ data.license_key }}</td>
           <td>{{ data.license_expiration_time }}</td>
@@ -31,7 +31,7 @@
         <br />
         Panding Connections
       </h4> 
-      <nz-table #basicTable [nzData]="listOfData">
+      <nz-table #pandingTable [nzData]="pandingConnections">
       <thead>
         <tr>
           <th>Client ID</th>
@@ -43,12 +43,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of basicTable.data">
+        <tr *ngFor="let data of pandingTable.data">
           <td>{{ data.client_id }}</td>
           <td>{{ data.license_key }}</td>
           <td>{{ data.license_expiration_time }}</td>
-          <td>{{ data.server_id }}</td>
-          <td>{{ data.clients_capacity }}</td>
+          <td>-</td>
+          <td>-</td>
           <td>{{ data.location }}</td>
         </tr>
       </tbody>
@@ -58,7 +58,7 @@
         <br />
         Expired Connections
       </h4> 
-      <nz-table #basicTable [nzData]="listOfData">
+      <nz-table #expireTable [nzData]="expiredConnections">
       <thead>
         <tr>
           <th>Client ID</th>
@@ -70,7 +70,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of basicTable.data">
+        <tr *ngFor="let data of expireTable.data">
           <td>{{ data.client_id }}</td>
           <td>{{ data.license_key }}</td>
           <td>{{ data.license_expiration_time }}</td>
@@ -80,4 +80,5 @@
         </tr>
       </tbody>
     </nz-table>
+    <br>
 </div>

@@ -14,9 +14,9 @@ public class LicenceController {
         this.licenseRepository = licenseRepository;
     }
 
-    @GetMapping(value = "/response", produces="text/plain")
-    @ResponseBody
-    private String getResponse(@RequestParam("customer_id") String customer_id, @RequestParam("license_key") String license_key) {
+    @GetMapping(value = "/request/{id}/{key}/response", produces="text/plain")
+//    @ResponseBody
+    private String getResponseFromRequest(@PathVariable("id") String customer_id, @PathVariable("key") String license_key) {
         License license = this.licenseRepository.getLicense(license_key);
         if (license == null) {
             System.out.println("no such licence");
@@ -41,4 +41,9 @@ public class LicenceController {
 
         return "\"" + "" + "\"";
     }
+
+//    @GetMapping(value = "/", produces="text/plain")
+//    @ResponseBody
+//    private String checkLicenseExpirationTime(@RequestParam("client_id") String client_id) {
+//    }
 }

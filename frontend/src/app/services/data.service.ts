@@ -17,6 +17,6 @@ export class DataService {
   }
 
   public getClientDataById(client_id: string) {
-    return this.http.get<Client>(this.requestUrl + '/' + client_id);
+    return this.http.get<Client>(this.requestUrl + `/${client_id}`);
   }
 }

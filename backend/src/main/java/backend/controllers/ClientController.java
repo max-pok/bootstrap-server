@@ -2,9 +2,7 @@ package backend.controllers;
 
 import backend.models.Client;
 import backend.repositories.ClientRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,8 +29,8 @@ public class ClientController {
     }
 
     @GetMapping("/clients-info/{id}")
-    public List<Client> getClientInformation(String client_id) {
-        System.out.println(client_id);
+    @ResponseBody
+    public List<Client> getClientInformation(@PathVariable("id") String client_id) {
         return this.clientRepository.getClient(client_id);
     }
 

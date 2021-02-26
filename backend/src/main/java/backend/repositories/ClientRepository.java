@@ -27,4 +27,8 @@ public class ClientRepository {
     public List<Client> getClient(String client_id) {
         return MongoDB.clientsCollection.find(Filters.eq("client_id", client_id)).into(new ArrayList<>());
     }
+
+    public List<Client> getClientsWithoutServer() {
+        return MongoDB.clientsCollection.find(Filters.eq("server_id", "")).into(new ArrayList<>());
+    }
 }

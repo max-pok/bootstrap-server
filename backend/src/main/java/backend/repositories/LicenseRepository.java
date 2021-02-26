@@ -1,9 +1,7 @@
 package backend.repositories;
 
-import backend.models.Client;
 import backend.models.License;
 import backend.models.Request;
-import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.model.Filters;
 import org.springframework.stereotype.Repository;
 
