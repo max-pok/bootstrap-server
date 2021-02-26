@@ -1,13 +1,11 @@
 package backend.threads;
 
-import backend.controllers.DataController;
+import backend.controllers.ClientController;
 
 public class ServerAllocation implements Runnable {
 
-    private DataController dataController;
 
     public ServerAllocation() {
-        dataController = new DataController();
     }
 
     @Override
@@ -15,7 +13,7 @@ public class ServerAllocation implements Runnable {
         while (true) {
             try {
                 Thread.sleep(3000);
-                dataController.licensesVerificationWithServer();
+//                clientController.licensesVerificationWithServer();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

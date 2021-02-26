@@ -1,7 +1,8 @@
-<div class='container mt4'>
-  <h4 class='display-4 text-center mb4'>
+<div class='container'>
+      <button class="go-to-button" nz-button nzType="primary" nzShape="round" routerLink="/addrequest">Go to request page</button>
+      <h4 class='display-6 mb4'>
         <br />
-        Information
+        Active Connections
       </h4> 
       <nz-table #basicTable [nzData]="listOfData">
       <thead>
@@ -16,18 +17,67 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data">
-          <td>{{ data.name }}</td>
-          <td>{{ data.age }}</td>
-          <td>{{ data.address }}</td>
-          <td>{{ data.address }}</td>
-          <td>{{ data.address }}</td>
-          <td>
-            <a>Action 一 {{ data.name }}</a>
-            <nz-divider nzType="vertical"></nz-divider>
-            <a>Delete</a>
-          </td>
+          <td>{{ data.client_id }}</td>
+          <td>{{ data.license_key }}</td>
+          <td>{{ data.license_expiration_time }}</td>
+          <td>{{ data.server_id }}</td>
+          <td>{{ data.clients_capacity }}</td>
+          <td>{{ data.location }}</td>
         </tr>
       </tbody>
     </nz-table>
-    <button class="go-to-button" nz-button nzType="primary" nzShape="round" routerLink="/addrequest">Go to request page</button>
+
+    <h4 class='display-6 mb4'>
+        <br />
+        Panding Connections
+      </h4> 
+      <nz-table #basicTable [nzData]="listOfData">
+      <thead>
+        <tr>
+          <th>Client ID</th>
+          <th>License Key</th>
+          <th>License Expiration Time (Minutes)</th>
+          <th>Server ID</th>
+          <th>Clients Capacity</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.client_id }}</td>
+          <td>{{ data.license_key }}</td>
+          <td>{{ data.license_expiration_time }}</td>
+          <td>{{ data.server_id }}</td>
+          <td>{{ data.clients_capacity }}</td>
+          <td>{{ data.location }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    
+    <h4 class='display-6 mb4'>
+        <br />
+        Expired Connections
+      </h4> 
+      <nz-table #basicTable [nzData]="listOfData">
+      <thead>
+        <tr>
+          <th>Client ID</th>
+          <th>License Key</th>
+          <th>License Expiration Time (Minutes)</th>
+          <th>Server ID</th>
+          <th>Clients Capacity</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.client_id }}</td>
+          <td>{{ data.license_key }}</td>
+          <td>{{ data.license_expiration_time }}</td>
+          <td>{{ data.server_id }}</td>
+          <td>{{ data.clients_capacity }}</td>
+          <td>{{ data.location }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
 </div>

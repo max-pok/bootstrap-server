@@ -1,3 +1,5 @@
+import { Client } from './../../models/client';
+import { DataService } from './../../services/data.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,28 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./info-page.component.css'],
 })
 export class InfoPageComponent implements OnInit {
-  listOfData = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-    },
-  ];
+  listOfData;
 
-  constructor() {}
+  constructor(private dataService: DataService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dataService.getClientsData().subscribe((clients) => {
+      this.listOfData = clients;
+    });
+
+    this.dataService.getClientDataById('319475513').subscribe((data) => {
+      console.log(data);
+    });
+  }
 }

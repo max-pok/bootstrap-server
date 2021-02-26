@@ -1,3 +1,5 @@
+import { DataService } from './services/data.service';
+import { AuthService } from './services/auth.service';
 import { RequestService } from './services/request.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -39,7 +41,12 @@ registerLocaleData(en);
     NzTableModule,
     NzDividerModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, RequestService],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    RequestService,
+    AuthService,
+    DataService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

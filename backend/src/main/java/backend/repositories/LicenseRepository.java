@@ -15,6 +15,12 @@ import java.util.logging.Logger;
 @Repository
 public class LicenseRepository {
 
+    public final ClientRepository clientRepository;
+
+    public LicenseRepository(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
+
     private final static Logger LOGGER = Logger.getLogger(LicenseRepository.class.getName());
 
     /**
@@ -33,16 +39,13 @@ public class LicenseRepository {
             license.setClient_id(request.customer_id);
             this.updateLicense(license);
             LOGGER.log(Level.INFO,  "Client id updated [license: " + request.getLicense_key() + "]");
+
+            this.clientRepository.initClientInformation(license, request.location);
         }
     }
 
     public List<String> getUnusedLicenses() {
-        DistinctIterable<String> licenses = MongoDB.licensesCollection.distinct("license_key", Filters.eq("client_id", null), String.class);
-        List<String> licensesList = new ArrayList<>();
-        for (String license : licenses) {
-            licensesList.add(license);
-        }
-        return licensesList;
+        return MongoDB.licensesCollection.distinct("license_key", Filters.eq("client_id", null), String.class).into(new ArrayList<>());
     }
 
     public License getLicense(String license_key) {

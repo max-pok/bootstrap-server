@@ -14,7 +14,7 @@ public class LicenceController {
         this.licenseRepository = licenseRepository;
     }
 
-    @RequestMapping(value = "/response", method = RequestMethod.GET, produces="text/plain")
+    @GetMapping(value = "/response", produces="text/plain")
     @ResponseBody
     private String getResponse(@RequestParam("customer_id") String customer_id, @RequestParam("license_key") String license_key) {
         License license = this.licenseRepository.getLicense(license_key);

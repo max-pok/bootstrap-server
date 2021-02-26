@@ -10,11 +10,6 @@ import java.util.List;
 public class ServerRepository {
 
     public List<String> getDistinctLocations() {
-        DistinctIterable<String> locations = MongoDB.serversCollection.distinct("location", String.class);
-        List<String> locationsList = new ArrayList<>();
-        for (String location : locations) {
-            locationsList.add(location);
-        }
-        return locationsList;
+        return MongoDB.serversCollection.distinct("location", String.class).into(new ArrayList<>());
     }
 }
