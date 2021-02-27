@@ -1,0 +1,22 @@
+<div class='container'>
+      <h4 class='display-6 mb4'>
+        <br />
+        Login
+      </h4> 
+    <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your username!">
+          <nz-input-group nzPrefixIcon="user">
+            <input formControlName="userName" nz-input placeholder="Username" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" [disabled]="!validateForm.valid">Enter</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+</div>
+
+

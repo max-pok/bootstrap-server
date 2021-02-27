@@ -22,11 +22,13 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { InfoPageComponent } from './components/info-page/info-page.component';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { LoginComponent } from './components/login/login.component';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, RequestFormComponent, InfoPageComponent],
+  declarations: [AppComponent, RequestFormComponent, InfoPageComponent, LoginComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,6 +42,7 @@ registerLocaleData(en);
     NzButtonModule,
     NzTableModule,
     NzDividerModule,
+    NzMessageModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

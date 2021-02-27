@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Request } from 'src/app/models/request';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'request-form',
@@ -26,8 +27,9 @@ export class RequestFormComponent implements OnInit {
     if (this.validateForm.valid) {
       this.requestService.save(this.request).subscribe(() => {
         this.requestService.getResponse(this.request).subscribe((response) => {
-          if (response !== '') alert(response);
-          this.router.navigate(['']);
+          if (response !== '') {
+            this.message.create('success', response.toString());
+          }
         });
       });
     } else {
@@ -39,10 +41,10 @@ export class RequestFormComponent implements OnInit {
   }
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private requestService: RequestService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private message: NzMessageService
   ) {
     this.request = new Request();
   }
@@ -59,7 +61,7 @@ export class RequestFormComponent implements OnInit {
       this.licences = data['licences'];
 
       if (this.licences.length === 0) {
-        alert('No licences available. Try again later.');
+        this.message.create('error', `No licences available. Try again later.`);
       }
     });
   }
