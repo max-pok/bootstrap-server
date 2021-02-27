@@ -87,4 +87,10 @@ export class InfoPageComponent implements OnInit {
         }
       });
   }
+
+  resetAll() {
+    this.dataService.resetAll().subscribe(() => {
+      this.message.create('succsess', `Reset completed.`);
+    });
+  }
 }

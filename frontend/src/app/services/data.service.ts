@@ -19,4 +19,8 @@ export class DataService {
   public getClientDataById(client_id: string) {
     return this.http.get<Client>(this.requestUrl + `/${client_id}`);
   }
+
+  public resetAll() {
+    return this.http.post(`${this.requestUrl}/dev/319475513/reset-all`, '');
+  }
 }

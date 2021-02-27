@@ -15,14 +15,6 @@ public class ClientController {
         this.clientRepository = clientRepository;
     }
 
-    /**
-     * For each client with a licence without a server
-     * Check if there is a available server for him.
-     */
-    public void licensesVerificationWithServer() {
-
-    }
-
     @GetMapping("/clients-info")
     public List<Client> getClientsInformation() {
         return this.clientRepository.getClients();

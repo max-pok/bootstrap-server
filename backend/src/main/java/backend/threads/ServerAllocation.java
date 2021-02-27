@@ -22,6 +22,8 @@ public class ServerAllocation implements Runnable {
     @Override
     public void run() {
         LOGGER.info(Thread.currentThread().getName() + ": started. [Server Allocation]");
+        resetClientLicenseExpirationThreads();
+        
         while (true) {
             try {
                 allocateServerToClient();
@@ -47,7 +49,6 @@ public class ServerAllocation implements Runnable {
 
          for (Client client: clientList) {
              List<Server> serverList = MongoDB.serversCollection.find(Filters.eq("location", client.getLocation())).into(new ArrayList<>());
-             System.out.println(serverList);
              for (Server server: serverList) {
                  int current_size = MongoDB.clientsCollection.find(Filters.eq("server_id", server.getServer_id())).into(new ArrayList<>()).size();
                  if (current_size < server.getClients_capacity()) {
@@ -61,32 +62,12 @@ public class ServerAllocation implements Runnable {
              }
          }
     }
+
+    public synchronized void resetClientLicenseExpirationThreads() {
+        List<Client> clientList = MongoDB.clientsCollection.find(Filters.and(Filters.ne("server_id", ""), Filters.ne("license_expiration_time", 0))).into(new ArrayList<>());
+        
+        for (Client client: clientList) {
+            new Thread(new LicenseExpiration(client)).start();
+        }
+    }
 }
-
-
-
-
-// List<Client> clientList = MongoDB.clientsCollection.find(
-        //         Filters.and(Filters.eq("server_id", ""), Filters.ne("license_expiration_time", 0))).into(new ArrayList<>());;
-
-        // for (Client client: clientList) {
-        //     List<Server> serverList = MongoDB.serversCollection.find(Filters.eq("location", client.getLocation())).into(new ArrayList<>());
-        //     System.out.println(serverList);
-        //     for (Server server: serverList) {
-        //         if (server.getCurrent_clients_capacity() < server.getClients_capacity()) {
-        //             MongoDB.serversCollection.updateOne(
-        //                     Filters.eq("server_id", server.getServer_id()),
-        //                     Updates.inc("current_client_capacity", 1));
-
-        //             client.setClients_capacity(server.getClients_capacity());
-        //             client.setServer_id(server.getServer_id());
-
-        //             MongoDB.clientsCollection.replaceOne(Filters.eq("license_key", client.getLicense_key()), client);
-        //             LicenseExpiration licenseExpiration = new LicenseExpiration();
-		//             new Thread(licenseExpiration).start();
-        //             break;
-        //         }
-        //     }
-        // }
-
-        // List<Client> clientList = MongoDB.clientsCollection.find(Filters.and(Filters.eq("server_id", ""), Filters.ne("license_expiration_time", 0))).into(new ArrayList<>());
