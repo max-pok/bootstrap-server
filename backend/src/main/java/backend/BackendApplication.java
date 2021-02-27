@@ -1,6 +1,5 @@
 package backend;
 
-import backend.threads.LicenseExpiration;
 import backend.threads.ServerAllocation;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +12,10 @@ public class BackendApplication {
 		initProcesses();
 	}
 
+
+	/**
+	 * Initializes the process: Server Allocation [Allocates servers to valid clients]
+	 */
 	public static void initProcesses() {
 		ServerAllocation serverAllocation = new ServerAllocation();
 		new Thread(serverAllocation).start();

@@ -19,27 +19,6 @@ export class RequestFormComponent implements OnInit {
   locations = [];
   licences = [];
 
-  submitForm(): void {
-    this.request.customer_id = this.validateForm.get('userID').value;
-    this.request.location = this.validateForm.get('location').value;
-    this.request.license_key = this.validateForm.get('license').value;
-
-    if (this.validateForm.valid) {
-      this.requestService.save(this.request).subscribe(() => {
-        this.requestService.getResponse(this.request).subscribe((response) => {
-          if (response !== '') {
-            this.message.create('success', response.toString());
-          }
-        });
-      });
-    } else {
-      for (const i in this.validateForm.controls) {
-        this.validateForm.controls[i].markAsDirty();
-        this.validateForm.controls[i].updateValueAndValidity();
-      }
-    }
-  }
-
   constructor(
     private router: Router,
     private requestService: RequestService,
@@ -64,6 +43,27 @@ export class RequestFormComponent implements OnInit {
         this.message.create('error', `No licences available. Try again later.`);
       }
     });
+  }
+
+  submitForm(): void {
+    this.request.customer_id = this.validateForm.get('userID').value;
+    this.request.location = this.validateForm.get('location').value;
+    this.request.license_key = this.validateForm.get('license').value;
+
+    if (this.validateForm.valid) {
+      this.requestService.request(this.request).subscribe(() => {
+        this.requestService.getResponse(this.request).subscribe((response) => {
+          if (response !== '') {
+            this.message.create('', response.toString());
+          }
+        });
+      });
+    } else {
+      for (const i in this.validateForm.controls) {
+        this.validateForm.controls[i].markAsDirty();
+        this.validateForm.controls[i].updateValueAndValidity();
+      }
+    }
   }
 
   gotoInfoPage() {

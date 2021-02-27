@@ -13,25 +13,20 @@ export class RequestService {
     this.requestUrl = 'http://localhost:9092/request';
   }
 
-  public findAll(): Observable<Request[]> {
-    return this.http.get<Request[]>(this.requestUrl);
-  }
-
+  /* get locations and licences for select input from backend */
   public getLocationsAndLicences(): Observable<String[]> {
     return this.http.get<String[]>(this.requestUrl);
   }
 
-  public getLicenses(): Observable<String[]> {
-    return this.http.get<String[]>(this.requestUrl);
-  }
-
+  /* get response on form submit */
   public getResponse(request: Request) {
     return this.http.get<String>(
       `${this.requestUrl}/${request.customer_id}/${request.license_key}/response`
     );
   }
 
-  public save(request: Request) {
+  /* send request to backend */
+  public request(request: Request) {
     return this.http.post<Request>(this.requestUrl, request);
   }
 }

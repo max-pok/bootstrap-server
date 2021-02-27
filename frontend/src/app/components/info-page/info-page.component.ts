@@ -1,9 +1,10 @@
 import { AuthService } from './../../services/auth.service';
 import { DataService } from './../../services/data.service';
 import { Component, OnInit } from '@angular/core';
-import { interval } from 'rxjs';
+import { interval, timer } from 'rxjs';
 import { Client } from 'src/app/models/client';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzConfigService } from 'ng-zorro-antd/core/config';
 
 @Component({
   selector: 'app-info-page',
@@ -19,18 +20,20 @@ export class InfoPageComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private authService: AuthService,
+    public authService: AuthService,
     private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
-    this.initData();
+    const source = timer(0, 3000);
 
-    interval(3000).subscribe((x) => {
+    source.subscribe((v) => {
       this.getData();
+      this.checkForUpdate();
     });
   }
 
+  /* Gets clent data from backend */
   getData(): void {
     this.dataService
       .getClientDataById(this.authService.user_id)
@@ -50,42 +53,25 @@ export class InfoPageComponent implements OnInit {
         this.expiredConnections = this.listOfData.filter((client) => {
           return client.license_expiration_time === 0;
         });
-
-        if (this.expiredConnections.length > this.prevList.length) {
-          this.message.create(
-            'warning',
-            `You have an expired license key. Please update it.`
-          );
-        }
-
-        this.prevList = this.expiredConnections;
       });
   }
 
-  initData() {
-    this.dataService
-      .getClientDataById(this.authService.user_id)
-      .subscribe((data) => {
-        this.listOfData = data;
+  checkForUpdate() {
+    if (this.expiredConnections.length > this.prevList.length) {
+      if (this.expiredConnections.length == 1) {
+        this.message.create(
+          'warning',
+          `You have ${this.expiredConnections.length} expired license key. Please update it.`
+        );
+      } else {
+        this.message.create(
+          'warning',
+          `You have an ${this.expiredConnections.length} expired license key. Please update them.`
+        );
+      }
+    }
 
-        this.activeConnections = this.listOfData.filter((client) => {
-          return client.server_id !== '' && client.license_expiration_time > 0;
-        });
-
-        this.pandingConnections = this.listOfData.filter((client) => {
-          return (
-            client.server_id === '' && client.license_expiration_time !== 0
-          );
-        });
-
-        this.expiredConnections = this.listOfData.filter((client) => {
-          return client.license_expiration_time === 0;
-        });
-
-        if (this.expiredConnections.length > 0) {
-          // this.message.create('warning', `Update your expired license keys`);
-        }
-      });
+    this.prevList = this.expiredConnections;
   }
 
   resetAll() {

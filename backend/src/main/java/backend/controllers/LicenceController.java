@@ -14,28 +14,32 @@ public class LicenceController {
         this.licenseRepository = licenseRepository;
     }
 
+    /**
+     * After request been made
+     * @return the frontend (the client) a response about his last request submission.
+     */
     @GetMapping(value = "/request/{id}/{key}/response", produces="text/plain")
     private String getResponseFromRequest(@PathVariable("id") String customer_id, @PathVariable("key") String license_key) {
         License license = this.licenseRepository.getLicense(license_key);
+        
         if (license == null) {
-            System.out.println("no such licence");
-            return "\"" + "NO SUCH LICENCE" + "\"";
+            return "\"" + "No Such license." + "\"";
         }
 
         if (license.getClient_id() == null) {
-            return "\"" + "LICENCE KEY UNOCCUPIED" + "\"";
+            return "\"" + "License key is unoccupied." + "\"";
         }
 
         if (license.getClient_id().equals(customer_id)) {
-            return "\"" + "LICENCE KEY REQUEST ACCEPTED" + "\"";
+            return "\"" + "License key request accepted." + "\"";
         }
 
         else if (license.getLicense_expiration_time()  == 0) {
-            return "\"" + "LICENCE KEY EXPIRED" + "\"";
+            return "\"" + "License key expired." + "\"";
         }
 
         else if (!license.getClient_id().equals(customer_id)) {
-            return "\"" + "LICENCE KEY ALREADY OCCUPIED" + "\"";
+            return "\"" + "License key is already occupied." + "\"";
         }
 
         return "\"" + "" + "\"";

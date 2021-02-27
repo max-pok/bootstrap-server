@@ -1,10 +1,8 @@
-package backend.repositories;
+package backend.utilities;
 
 import backend.models.Client;
 import backend.models.License;
-import backend.models.Request;
 import backend.models.Server;
-import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -18,14 +16,16 @@ import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class MongoDB {
-    public static MongoClient mongoClient = init();
-    public static MongoDatabase database = mongoClient.getDatabase("BootstrapServerDB");
-    public static MongoCollection<Server> serversCollection = database.getCollection("Servers", Server.class);
-    public static MongoCollection<License> licensesCollection = database.getCollection("Licenses", License.class);
-    public static MongoCollection<Request> requestsCollection = database.getCollection("Requests", Request.class);
-    public static MongoCollection<Client> clientsCollection = database.getCollection("Clients", Client.class);
 
-    public static MongoClient init() {
+    private MongoDB() {}
+
+    public static final MongoClient mongoClient = initMongoClient();
+    public static final MongoDatabase database = mongoClient.getDatabase("BootstrapServerDB");
+    public static final MongoCollection<Server> serversCollection = database.getCollection("Servers", Server.class);
+    public static final MongoCollection<License> licensesCollection = database.getCollection("Licenses", License.class);
+    public static final MongoCollection<Client> clientsCollection = database.getCollection("Clients", Client.class);
+
+    public static MongoClient initMongoClient() {
         CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
         return MongoClients.create(MongoClientSettings.builder()

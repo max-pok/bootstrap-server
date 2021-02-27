@@ -15,17 +15,17 @@ public class ClientController {
         this.clientRepository = clientRepository;
     }
 
-    @GetMapping("/clients-info")
-    public List<Client> getClientsInformation() {
-        return this.clientRepository.getClients();
-    }
-
+    /**
+     * @returns the frontend all client information based on a given id.
+     */
     @GetMapping("/clients-info/{id}")
-    @ResponseBody
     public List<Client> getClientInformation(@PathVariable("id") String client_id) {
         return this.clientRepository.getClient(client_id);
     }
 
 
-
+    // @GetMapping("/clients-info")
+    // public List<Client> getClientsInformation() {
+    //     return this.clientRepository.getClients();
+    // }
 }

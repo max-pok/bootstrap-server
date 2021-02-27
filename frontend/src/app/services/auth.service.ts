@@ -16,6 +16,7 @@ export class AuthService implements CanActivate {
 
   constructor(private router: Router) {}
 
+  /* autentication for user [in order for him to make request and view data] */
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

@@ -1,9 +1,7 @@
 package backend.controllers;
 
 import backend.models.Request;
-import backend.repositories.ClientRepository;
 import backend.repositories.LicenseRepository;
-import backend.repositories.RequestRepository;
 import backend.repositories.ServerRepository;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
@@ -14,32 +12,31 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200")
 public class RequestController {
 
-    private final RequestRepository requestRepository;
     private final LicenseRepository licenseRepository;
     private final ServerRepository serverRepository;
 
-    public RequestController(RequestRepository requestRepository, LicenseRepository licenseRepository,
+    public RequestController(LicenseRepository licenseRepository,
                              ServerRepository serverRepository) {
-        this.requestRepository = requestRepository;
         this.licenseRepository = licenseRepository;
         this.serverRepository = serverRepository;
     }
 
     /**
-     * Adds request to database
+     * Client request submit.
      */
     @PostMapping("/request")
     public void addRequest(@RequestBody Request request) {
-        // if the same request exist => replace it, else => add it.
-        this.requestRepository.saveRequest(request);
-
-        // if there is available licence key for the request
+        // checks if there is available licence key for the request
         this.licenseRepository.requestVerification(request);
     }
 
+
+    /**
+     * @returns distict locations and unused licences for the request form in the frontend.
+     */
     @GetMapping("/request")
     private Map<String, List<String>> getLocationsAndLicences() {
-        // Get locations
+        // Get distict locations
         List<String> locationsList = this.serverRepository.getDistinctLocations();
 
         // Get unused licences
