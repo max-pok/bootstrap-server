@@ -10,7 +10,12 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
-		ServerRepository.startClientsLicenseExpirationThreads();
-		ServerRepository.allocateServersToClients();
+		start();
+	}
+
+	public static void start() {
+		ServerRepository serverRepository = new ServerRepository();
+		serverRepository.startClientsLicenseExpirationThreads();
+		serverRepository.initServerAllocation();
 	}
 }
