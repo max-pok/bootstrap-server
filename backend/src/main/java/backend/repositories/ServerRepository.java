@@ -52,6 +52,12 @@ public class ServerRepository {
     public static synchronized void allocateServer(Client client) {
         List<Server> servers = MongoDB.serversCollection.find(Filters.eq(LOCATION, client.getLocation())).into(new ArrayList<>());
 
+        // check if there are no servers with client location
+        if (servers.isEmpty()) {
+            LOGGER.warning("No available servers in " + client.getLocation());
+            return;
+        }
+        
         for (Server server: servers) {
             int current_size = MongoDB.clientsCollection.find(Filters.eq(SERVER_ID, server.getServer_id())).into(new ArrayList<>()).size();
             if (current_size < server.getClients_capacity()) {
