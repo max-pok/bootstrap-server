@@ -23,19 +23,11 @@ public class LicenceController {
         License license = this.licenseRepository.getLicense(license_key);
         
         if (license == null) {
-            return "\"" + "No Such license." + "\"";
-        }
-
-        if (license.getClient_id() == null) {
-            return "\"" + "License key is unoccupied." + "\"";
+            return "\"" + "No Such license key." + "\"";
         }
 
         if (license.getClient_id().equals(customer_id)) {
             return "\"" + "License key request accepted." + "\"";
-        }
-
-        else if (license.getLicense_expiration_time()  == 0) {
-            return "\"" + "License key expired." + "\"";
         }
 
         else if (!license.getClient_id().equals(customer_id)) {

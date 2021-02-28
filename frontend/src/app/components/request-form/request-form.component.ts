@@ -1,9 +1,11 @@
+import { AuthService } from './../../services/auth.service';
 import { RequestService } from './../../services/request.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Request } from 'src/app/models/request';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'request-form',
@@ -23,14 +25,15 @@ export class RequestFormComponent implements OnInit {
     private router: Router,
     private requestService: RequestService,
     private fb: FormBuilder,
-    private message: NzMessageService
+    private auth: AuthService,
+    private toastr: ToastrService
   ) {
     this.request = new Request();
   }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      userID: [null, [Validators.required]],
+      userID: [this.auth.user_id, [Validators.required]],
       location: [null, [Validators.required]],
       license: [null, [Validators.required]],
     });
@@ -40,7 +43,7 @@ export class RequestFormComponent implements OnInit {
       this.licences = data['licences'];
 
       if (this.licences.length === 0) {
-        this.message.create('error', `No licences available. Try again later.`);
+        this.toastr.error(`No licences available. Try again later.`);
       }
     });
   }
@@ -54,7 +57,7 @@ export class RequestFormComponent implements OnInit {
       this.requestService.request(this.request).subscribe(() => {
         this.requestService.getResponse(this.request).subscribe((response) => {
           if (response !== '') {
-            this.message.create('', response.toString());
+            this.toastr.info('', response.toString());
           }
         });
       });

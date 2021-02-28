@@ -1,36 +1,42 @@
 import { AuthService } from './../../services/auth.service';
 import { DataService } from './../../services/data.service';
-import { Component, OnInit } from '@angular/core';
-import { interval, timer } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { interval, Subscription, timer } from 'rxjs';
 import { Client } from 'src/app/models/client';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-info-page',
   templateUrl: './info-page.component.html',
   styleUrls: ['./info-page.component.css'],
 })
-export class InfoPageComponent implements OnInit {
-  listOfData;
+export class InfoPageComponent implements OnInit, OnDestroy {
+  listOfData: Client[] = [];
   activeConnections: Client[] = [];
   pandingConnections: Client[] = [];
   expiredConnections: Client[] = [];
   prevList: Client[] = [];
+  subscription: Subscription;
 
   constructor(
     private dataService: DataService,
     public authService: AuthService,
-    private message: NzMessageService
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     const source = timer(0, 3000);
 
-    source.subscribe((v) => {
+    this.subscription = source.subscribe((v) => {
       this.getData();
       this.checkForUpdate();
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   /* Gets clent data from backend */
@@ -59,13 +65,11 @@ export class InfoPageComponent implements OnInit {
   checkForUpdate() {
     if (this.expiredConnections.length > this.prevList.length) {
       if (this.expiredConnections.length == 1) {
-        this.message.create(
-          'warning',
+        this.toastr.warning(
           `You have ${this.expiredConnections.length} expired license key. Please update it.`
         );
       } else {
-        this.message.create(
-          'warning',
+        this.toastr.warning(
           `You have an ${this.expiredConnections.length} expired license key. Please update them.`
         );
       }
@@ -76,7 +80,7 @@ export class InfoPageComponent implements OnInit {
 
   resetAll() {
     this.dataService.resetAll().subscribe(() => {
-      this.message.create('succsess', `Reset completed.`);
+      this.toastr.success(`Reset completed`);
     });
   }
 }

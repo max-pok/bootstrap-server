@@ -25,6 +25,8 @@ public class ClientRepository {
      */
     public void addClient(Client client) {
         MongoDB.clientsCollection.insertOne(client);
+        // try to allocate the client a server
+        ServerRepository.allocateServer(client);
     }
 
     /**

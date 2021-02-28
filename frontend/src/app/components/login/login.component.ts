@@ -2,6 +2,7 @@ import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -10,16 +11,6 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   validateForm!: FormGroup;
-
-  submitForm(): void {
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
-    }
-
-    this.authService.user_id = this.validateForm.get('userName').value;
-    this.router.navigate(['/home']);
-  }
 
   constructor(
     private fb: FormBuilder,
@@ -32,5 +23,15 @@ export class LoginComponent implements OnInit {
       userName: [null, [Validators.required]],
       remember: [true],
     });
+  }
+
+  submitForm(): void {
+    for (const i in this.validateForm.controls) {
+      this.validateForm.controls[i].markAsDirty();
+      this.validateForm.controls[i].updateValueAndValidity();
+    }
+
+    this.authService.user_id = this.validateForm.get('userName').value;
+    this.router.navigate(['/home']);
   }
 }
