@@ -16,6 +16,7 @@ public class ServerRepository {
 
     private static final String SERVER_ID = "server_id";
     private static final String LOCATION = "location";
+    private static final String LICENSE_EXP_TIME = "license_expiration_time";
     private static final Logger LOGGER = Logger.getLogger(ServerRepository.class.getName());
 
     /**
@@ -29,13 +30,13 @@ public class ServerRepository {
      *  allocate a server to a panding client [with a valid license key and without a server]
      *  with a given server location.
      */
-    public static synchronized void allocateServersToClients(String location) {
-        List<Client> clientList = MongoDB.clientsCollection.find(
+    public static synchronized void allocateServerToFirstClient(String location) {
+        Client client = MongoDB.clientsCollection.find(
             Filters.and(Filters.eq(SERVER_ID, ""), 
-            Filters.ne("license_expiration_time", 0),
-            Filters.eq(LOCATION, location))).into(new ArrayList<>());
+            Filters.ne(LICENSE_EXP_TIME, 0),
+            Filters.eq(LOCATION, location))).first();
         
-        for (Client client: clientList) {
+        if (client != null) {
             allocateServer(client);
         }
     }
@@ -72,13 +73,30 @@ public class ServerRepository {
         LOGGER.warning("No available servers in " + client.getLocation());
     }
 
+    /**
+     *  In case the server is rebooted the function will try to allocate a server to a 
+     *  panding client [with a valid license key and without a server]
+     *  with a given server location.
+     */
+    public static synchronized void allocateServersToClients(String location) {
+        List<Client> clientList = MongoDB.clientsCollection.find(
+            Filters.and(Filters.eq(SERVER_ID, ""), 
+            Filters.ne(LICENSE_EXP_TIME, 0),
+            Filters.eq(LOCATION, location))).into(new ArrayList<>());
+        
+        for (Client client: clientList) {
+            allocateServer(client);
+        }
+    }
+
     
     /**
      * In case the server is rebooted the function will start all the timers for the
      * clients with a valid license key and an existing server id.
      */
     public void startClientsLicenseExpirationThreads() {
-        List<Client> clientList = MongoDB.clientsCollection.find(Filters.and(Filters.ne(SERVER_ID, ""), Filters.ne("license_expiration_time", 0))).into(new ArrayList<>());
+        List<Client> clientList = MongoDB.clientsCollection.find(Filters.and(
+            Filters.ne(SERVER_ID, ""), Filters.ne(LICENSE_EXP_TIME, 0))).into(new ArrayList<>());
         
         for (Client client: clientList) {
             new Thread(new LicenseExpiration(client)).start();
@@ -96,5 +114,7 @@ public class ServerRepository {
             allocateServersToClients(location);
         }
     }
+
+    
 
 }

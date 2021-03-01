@@ -64,15 +64,9 @@ export class InfoPageComponent implements OnInit, OnDestroy {
 
   checkForUpdate() {
     if (this.expiredConnections.length > this.prevList.length) {
-      if (this.expiredConnections.length == 1) {
-        this.toastr.warning(
-          `You have ${this.expiredConnections.length} expired license key. Please update it.`
-        );
-      } else {
-        this.toastr.warning(
-          `You have an ${this.expiredConnections.length} expired license key. Please update them.`
-        );
-      }
+      this.toastr.warning(
+        `You have ${this.expiredConnections.length} expired license key.`
+      );
     }
 
     this.prevList = this.expiredConnections;

@@ -55,7 +55,7 @@ public class LicenseExpiration implements Runnable {
             LOGGER.log(Level.INFO, "License: [{0}] expired.", client.getLicense_key());
 
             // try to allocate a server to valid clients.
-            ServerRepository.allocateServersToClients(client.getLocation());
+            ServerRepository.allocateServerToFirstClient(client.getLocation());
             Thread.currentThread().interrupt();
         }
     }
